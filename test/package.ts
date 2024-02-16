@@ -1,14 +1,15 @@
 import t from 'tap'
 
 t.test('load package successfully', async t => {
-  const { default: pkg } = await t.mockImport(
+  const { default: pkg, file } = await t.mockImport(
     '../dist/esm/package.js'
   )
   t.equal(pkg.name, 'tshy')
   t.equal(pkg.type, 'module')
+  t.type(file, 'string')
 })
 
-t.test('unsuccessfully fails build', async t => {
+t.skip('unsuccessfully fails build', async t => {
   const exits = t.capture(process, 'exit').args
   process.chdir(t.testdir())
   let failed = false

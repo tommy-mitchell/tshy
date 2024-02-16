@@ -4,13 +4,20 @@ import { readFileSync } from 'fs'
 import fail from './fail.js'
 import { Package } from './types.js'
 
-const readPkg = (): Package => {
+const readPkg = () => {
   try {
-    return JSON.parse(readFileSync('package.json', 'utf8'))
+    const file = readFileSync('package.json', 'utf8')
+    return {
+      file,
+      pkg: JSON.parse(file) as Package,
+    }
   } catch (er) {
     fail('failed to read package.json', er as Error)
     process.exit(1)
   }
 }
 
-export default readPkg()
+const { file, pkg } = readPkg()
+
+export { file }
+export default pkg

@@ -1,5 +1,11 @@
 import { writeFileSync } from 'fs'
-import pkg from './package.js'
+import detectIndent from 'detect-indent'
+import pkg, { file } from './package.js'
 
-export default () =>
-  writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\n')
+export default () => {
+  const indent = detectIndent(file).indent || 2
+  writeFileSync(
+    'package.json',
+    JSON.stringify(pkg, null, indent) + '\n'
+  )
+}
